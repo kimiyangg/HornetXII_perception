@@ -1,0 +1,3 @@
+split,images,missing_labels,empty_labels,flag,gate,flare,bucket
+train,5547,0,678,1030,1375,1510,3599
+valid,1253,0,78,162,544,379,774
