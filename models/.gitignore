@@ -1,0 +1,3 @@
+# TensorRT engines are device-specific -- rebuild on the target, never commit
+*.engine
+*.onnx
