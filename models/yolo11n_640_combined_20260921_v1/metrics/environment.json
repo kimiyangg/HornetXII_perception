@@ -1,0 +1,8 @@
+{
+  "python": "3.12.3",
+  "torch": "2.14.0+cu130",
+  "ultralytics": "8.4.157",
+  "cuda": "13.0",
+  "gpu": "NVIDIA H100 NVL",
+  "host": "NUS SoC compute cluster (xgpi5)"
+}

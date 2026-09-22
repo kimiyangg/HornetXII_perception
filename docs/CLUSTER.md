@@ -22,7 +22,7 @@ Compute nodes have no such limits.
 
 ## Layout
 
-    ~/hornet/cluster/     <- these scripts (synced from your Mac via SFTP)
+    ~/hornet/training/     <- these scripts (synced from your Mac via SFTP)
     ~/sauvc/venv/         <- python env   (big, deliberately outside the synced tree)
     ~/sauvc/data/         <- dataset
     ~/sauvc/runs/         <- training outputs
@@ -43,10 +43,10 @@ Compute nodes have no such limits.
 ```bash
 # 1. build the environment (once, ~10 min)
 sbatch -A allusers -p gpu --gres=gpu:h100-96:1 -c 8 --mem=32G --time=01:00:00 \
-       -J yolo-setup -o ~/sauvc/setup-%j.out --wrap "bash ~/hornet/cluster/setup_env.sh"
+       -J yolo-setup -o ~/sauvc/setup-%j.out --wrap "bash ~/hornet/training/setup_env.sh"
 
 # 2. get the dataset (once)
-srun -A allusers -c 4 --mem=16G --time=01:00:00 bash ~/hornet/cluster/get_data.sh
+srun -A allusers -c 4 --mem=16G --time=01:00:00 bash ~/hornet/training/get_data.sh
 
 # 3. train -- any train.py flag passes straight through
 sbatch run_train.sbatch

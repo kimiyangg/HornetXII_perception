@@ -1,6 +1,6 @@
-# SAUVC 2026 object detector — v1
+# yolo11n_640_combined_20260921_v1
 
-`sauvc_yolo11n_640_combined_v1.pt`
+**Author:** Kimi  **Date:** 2026-09-21
 
 ## What it is
 
@@ -27,9 +27,11 @@ points on turbid water; fine-tuning sequentially afterwards fixed that but
 dropped flare recall on clear water from 0.82 to 0.46. The combined model is
 the only one that handles both.
 
-## Performance
+## Metrics
 
-Turbid water (closest to competition conditions):
+**Measured on: `finetune_dataset` valid — 249 images, TURBID water.**
+
+Closest available proxy for competition conditions:
 
 | class | P | R | mAP50 | mAP50-95 |
 |---|---|---|---|---|
@@ -39,7 +41,10 @@ Turbid water (closest to competition conditions):
 | flare | 0.916 | 0.887 | 0.946 | 0.636 |
 | **all** | 0.953 | 0.934 | 0.958 | 0.739 |
 
-Clear water: mAP50 0.963, mAP50-95 0.727.
+On `yolo_dataset_v2` valid (1253 imgs, clear water): mAP50 0.9631, mAP50-95 0.7269.
+
+Both validation sets are small — the turbid one is only 249 images — so treat
+the third decimal as noise. The clear-vs-turbid gap is not noise.
 
 ## Known limitations
 
@@ -55,13 +60,14 @@ Clear water: mAP50 0.963, mAP50-95 0.727.
 
 ## Deploying to the Jetson Orin Nano
 
+
 Build the TensorRT engine **on the board** — engines are tied to the exact GPU
 and TensorRT version that created them.
 
 ```bash
 pip install ultralytics
-yolo export model=sauvc_yolo11n_640_combined_v1.pt format=engine half=True imgsz=640
-yolo predict model=sauvc_yolo11n_640_combined_v1.engine source=0 conf=0.25
+yolo export model=model.pt format=engine half=True imgsz=640
+yolo predict model=model.engine source=0 conf=0.25
 ```
 
 Do not commit the `.engine` — it is device-specific and rebuilt in a minute.
@@ -76,7 +82,15 @@ Roughly in order of value:
 3. **Bigger model** (`yolo11s`, 9.4M params) — Orin has headroom.
 4. **Threshold tuning** — free, no retraining.
 
-## Reproducing
+## Reproduce
 
-`args.yaml` holds every hyperparameter; `results.csv` the full metric history.
-Training scripts are in `cluster/`.
+```bash
+sbatch training/run_train.sbatch --data datasets/sauvc_combined.yaml
+```
+
+Trained in this repo — see git history for `training/` at the time.
+`args.yaml` holds every hyperparameter, `metrics/environment.json` the versions.
+
+**Note:** this run used ultralytics auto-batch, which chose 174 on a 95GB H100.
+`yolo11n_640_clean_20260921_v1` used `batch=16` and scored better on clear water;
+the smaller batch is likely the reason and should be tried here.

@@ -4,7 +4,7 @@
 # MUST run on a compute node, never on xlogin: the login node caps virtual
 # memory at 1GB and CPU time at 300s, under which pip and torch cannot run.
 #   srun -A allusers -p gpu --gres=gpu:a100-40:1 -c 8 --mem=32G --time=01:00:00 \
-#        bash ~/hornet/cluster/setup_env.sh
+#        bash ~/hornet/training/setup_env.sh
 set -euo pipefail
 
 case "$(hostname)" in

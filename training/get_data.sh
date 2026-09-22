@@ -6,7 +6,7 @@
 #
 # Run on a compute node -- xlogin's 300s CPU cap and 1GB VA limit will kill
 # a large download/unzip.
-#   srun -A allusers -c 4 --mem=16G --time=01:00:00 bash ~/hornet/cluster/get_data.sh
+#   srun -A allusers -c 4 --mem=16G --time=01:00:00 bash ~/hornet/training/get_data.sh
 set -euo pipefail
 
 PROJ=${PROJ:-$HOME/sauvc}

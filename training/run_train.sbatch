@@ -20,4 +20,4 @@ export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-8}
 export MKL_NUM_THREADS=$OMP_NUM_THREADS
 
 source ~/sauvc/venv/bin/activate
-python ~/hornet/cluster/train.py --workers "${SLURM_CPUS_PER_TASK:-8}" "$@"
+python ~/hornet/training/train.py --workers "${SLURM_CPUS_PER_TASK:-8}" "$@"
